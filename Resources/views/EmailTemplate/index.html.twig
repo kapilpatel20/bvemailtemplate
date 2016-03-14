@@ -1,0 +1,156 @@
+{% extends "BviTemplateBundle::layout.html.twig" %}
+{% block title %}Manage Email Templates{% endblock title %}
+{% block stylesheets %}
+    {{ parent() }}
+
+    <link href="{{ asset('bundles/bvitemplate/plugins/datatables/dataTables.bootstrap.css') }}" rel="stylesheet">
+    <link href="{{ asset('bundles/bvitemplate/css/dataTables.bootstrap.css')}}" rel="stylesheet">
+
+    <style type="text/css">
+        .dataTables_filter, .dataTables_length { display: none; }
+    </style>
+
+{% endblock stylesheets %}
+
+{% block body %}
+    <div class="content-wrapper" style="min-height: 1009px;">
+        <section class="content">
+            <div class="row">
+                <div class="col-lg-12">
+                    {{ include('BviTemplateBundle::flashMessage.html.twig') }}
+                    <div class='flashMsg'> </div>
+                    <div class="box box-success">
+                        <form role="form">
+                            <div class="box-body">
+                                <div class="row">
+                                    <div class="form-group col-md-4">
+                                        <label for="exampleInputKey">Key</label>
+                                        <div id="serKey"></div>
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label for="exampleInputsubject">Subject</label>
+                                        <div id="serSubject"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+
+                <div class="col-xs-12">
+                    <!--<a class="btn btn-success pull-right margin-bottom" href="{{ path('new') }}">Add Email Template</a>-->
+                </div>
+
+                <div class="col-xs-12">
+                    <div class="box">
+                        <div class="box-body">
+                            <div id="backendUserList_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+                                <div class="row">
+                                    <div class="col-sm-6"></div>
+                                    <div class="col-sm-6"></div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <table id="emailTemplateList" class="table dataTable table-bordered table-hover no-footer" role="grid" aria-describedby="emailTemplateList_info">
+                                        <thead>
+                                            <tr role="row">
+                                                <th>Id</th>
+                                                <th>Email Key</th>
+                                                <th>Email Subject</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+{% endblock body %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script src="{{ asset('bundles/bvitemplate/plugins/datatables/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('bundles/bvitemplate/plugins/datatables/jquery.dataTables.columnFilter.js') }}"></script>
+    <script src="{{ asset('bundles/bvitemplate/plugins/datatables/dataTables.bootstrap.min.js') }}"></script>
+    <script src="{{ asset('bundles/bvitemplate/dist/js/datatables/media/assets/js/datatables.min.js') }}"></script>
+    <script src="{{ asset('bundles/bvitemplate/dist/js/datatables/extras/TableTools/media/js/TableTools.min.js') }}"></script>
+    <script src="{{ asset('bundles/bvitemplate/dist/js/datatables/extras/TableTools/media/js/ZeroClipboard.min.js') }}"></script>
+    <script src="{{ asset('bundles/bvitemplate/dist/js/grid_function.js') }}"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            dTable = $('#emailTemplateList').dataTable({
+                "oLanguage": {
+                    "sLengthMenu": "Display _MENU_ Records",
+                    "sZeroRecords": "<center>No Record Found!</center>",
+                    "sInfo": "Showing _START_ to _END_ of _TOTAL_ Records",
+                    "sInfoEmpty": "Showing 0 to 0 of 0 Records",
+                    "sInfoFiltered": "(filtered from _MAX_ total Records)",
+{#                    "sProcessing": '<img src="{{ asset('bundles/bvitemplate/images/new-ajax-loader.gif')}}">'#}
+                },
+                bstateSave: true,
+                responsive: true,
+                bJQueryUI: false,
+                bProcessing: true,
+                bServerSide: true,
+                bFilter: true,
+                //multipleSelection: true,
+                iDisplayLength: 10,
+                sAjaxSource: "{{ path('template_grid_json') }}",
+                aoColumns: [
+                    {"sName": "Id"},
+                    {"sName": "Key"},
+                    {"sName": "Subject"},
+                    {"sName": "Id", "bSearchable": false, "bSortable": false, "className": "text-center tableIcon"}
+                ],
+                aoColumnDefs: [
+                    {
+                        "mRender": function (data, type, row) {
+
+                            var editUrl = "{{ path('edit', {'id': 'templateId'})}}";
+                            var fullEditUrl = editUrl.replace('templateId', row[3]);
+
+                            var deleteUrl = "{{ path('delete', {'id': 'templateId'})}}";
+                            var fullDeleteUrl = deleteUrl.replace('templateId', row[3]);
+                            var returnData = '';
+
+
+                            returnData += "<a href='" + fullEditUrl + "'data-toggle='tooltip' data-original-title='Edit'><img src='{{ asset('bundles/bvitemplate/dist/img/edit-icon.png') }}' width='20' height='20'></a>";
+
+
+                            //returnData +="<a href='"+fullDeleteUrl+"'data-toggle='tooltip' data-original-title='Delete' onclick='return confirm(\"Are you sure you want to delete?\")'><img src='{{ asset('bundles/bvitemplate/dist/img/delete-icon.png') }}' width='20' height='20'></a>";
+
+                            return returnData;
+
+
+                        },
+                        "aTargets": [3]
+                    }
+                ],
+                aaSorting: [[0, 'desc']],
+            });
+
+            $('#emailTemplateList').dataTable().columnFilter({
+                //sPlaceHolder: "head:after",
+                aoColumns: [
+                    null,
+                    {type: "text", sSelector: "#serKey"},
+                    {type: "text", sSelector: "#serSubject"}
+                ]
+            });
+
+            $("input").addClass("form-control");
+            $("select").addClass("form-control");
+        });
+    </script>
+
+{% endblock javascripts %}

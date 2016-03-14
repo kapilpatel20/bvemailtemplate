@@ -1,0 +1,23 @@
+bvi_template_homepage:
+    path:     /hello/{name}
+    defaults: { _controller: BviTemplateBundle:Default:index }
+
+index:
+    path:     /email-templates/list
+    defaults: { _controller: BviTemplateBundle:EmailTemplate:index }
+    
+template_grid_json:
+    path:     /email-templates/list-json
+    defaults: { _controller: BviTemplateBundle:EmailTemplate:emailTemplateListJson }
+
+new:
+    path:     /email-templates/new
+    defaults: { _controller: BviTemplateBundle:EmailTemplate:new }
+    
+edit:
+    path:     /email-templates/edit/{id}
+    defaults: { _controller: BviTemplateBundle:EmailTemplate:new }
+    
+delete:
+    path:     /email-templates/delete/{id}
+    defaults: { _controller: BviTemplateBundle:EmailTemplate:delete }

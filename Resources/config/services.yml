@@ -1,0 +1,6 @@
+services:
+#    bvi_template.example:
+#        class: BviTemplateBundle\Example
+#        arguments: [@service_id, "plain_value", %parameter%]
+    bvi_template.grid:
+        class: BviTemplateBundle\Utils\Grid

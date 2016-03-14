@@ -1,0 +1,70 @@
+{% extends "BviTemplateBundle::layout.html.twig" %}
+{% block body %}
+<div class="content-wrapper" style="min-height: 1009px;">
+    <section class="content">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="box box-success">
+                    <form action="{{ emailTemplate.id ? path('edit', {'id': emailTemplate.id}) : path('new') }}" method="POST" id="emailTemplateForm" role="form" novalidate>
+                        <div class="box-body">
+                            <div class="row">
+
+                                <div class="form-group col-md-6">
+                                    <label for="email_template_key">Email Key</label>
+                                    {{ form_widget(form.emailkey, { 'attr': { 'placeholder': 'Please Enter Email Key', 'class': 'form-control', 'readonly':'true'}}) }}
+                                    <span class="text-danger">{% if form_errors(form.emailkey) %}{{ form_errors(form.emailkey) }}{% endif %}</span>
+                                </div>
+
+                                <div class="form-group col-md-6">
+                                    <label for="email_template_subject">Email Subject</label>
+                                    {{ form_widget(form.subject, { 'attr': { 'placeholder': 'Please Enter Email Subject', 'class': 'form-control'}}) }}
+                                    <span class="text-danger">{% if form_errors(form.subject) %}{{ form_errors(form.subject) }}{% endif %}</span>
+                                </div>
+
+                                <div class="form-group col-md-12">
+                                    <label for="email_template_body">Email Body</label>
+                                    {{ form_widget(form.body, { 'attr': { 'placeholder': 'Please Enter Email Body', 'class': 'form-control ckeditor'}}) }}
+                                    <span class="text-danger">{% if form_errors(form.body) %}{{ form_errors(form.body) }}{% endif %}</span>
+                                </div>
+
+                                {{ form_rest(form) }}
+                            </div>
+                        </div>
+
+                        <div class="box-footer">
+                            <input type="submit" class="btn btn-success" type="submit" value="Submit">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+{% endblock body %}
+
+{% block javascripts %}
+
+{{ parent() }}
+<script type="text/javascript" src="{{ asset('bundles/bvitemplate/plugins/ckeditor/ckeditor.js') }}"></script>
+<script type="text/javascript" src="{{ asset('bundles/bvitemplate/js/jquery.validation.min.js') }}"></script>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+
+        $('#emailTemplateForm').validate({
+        	errorClass: "text-danger",
+            ignore: [],
+            rules: {
+                "bragshare_admin_email_template[emailkey]": "required",
+                "bragshare_admin_email_template[subject]": "required"
+            },
+            messages: {
+                "bragshare_admin_email_template[emailkey]": "Please enter email key.",
+                "bragshare_admin_email_template[subject]": "Please enter email subject."
+            }
+        });
+    });
+
+</script>
+{% endblock javascripts %}

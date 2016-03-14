@@ -1,0 +1,67 @@
+<?php
+
+namespace BviTemplateBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Emailtemplate
+ *
+ * @ORM\Table(name="emailtemplate")
+ * @ORM\Entity
+ */
+class Emailtemplate
+{
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="emailkey", type="string", length=250, nullable=false)
+     */
+    private $emailkey;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="subject", type="string", length=255, nullable=false)
+     */
+    private $subject;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="body", type="text", length=65535, nullable=false)
+     */
+    private $body;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="status", type="string", nullable=false)
+     */
+    private $status;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="created_at", type="datetime", nullable=false)
+     */
+    private $createdAt;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="updated_at", type="datetime", nullable=false)
+     */
+    private $updatedAt;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+
+}
