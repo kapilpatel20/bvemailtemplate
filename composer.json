@@ -1,1 +1,18 @@
-
+{
+    "name": "kapilpatel20/bvemailtemplate",
+    "description": "Email Template Management with eidt option",
+    "type": "symfony-bundle",
+    "homepage": "https://github.com/kapilpatel20/bvemailtemplate",
+    "authors": [{
+            "name": "Kapil",
+            "email": "kapil.patel@brainvire.com"
+        }],
+    "keywords": [
+        "Email Template Email-Template mail mailer"
+    ],
+    "license": "proprietary",
+    "autoload": {
+        "psr-4": {"BviTemplateBundle\\": ""}
+    },
+    "minimum-stability": "dev"
+}
